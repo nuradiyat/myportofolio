@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('website_visitors', function (Blueprint $table) {
             $table->id();
+            $table->string('ip_address', 45)->nullable()->index();
+            $table->text('user_agent')->nullable();
+            $table->date('visit_date')->index(); // tanggal kunjungan unik per hari
             $table->timestamps();
         });
     }

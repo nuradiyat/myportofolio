@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
+            $table->string('thumbnail');
+            $table->string('title');
+            $table->string('issuer');
+            $table->string('certificate_number')->nullable();
+            $table->year('issue_year');
+            $table->string('credential_url')->nullable();
+            $table->date('expired_at')->nullable();
+            $table->text('description')->nullable();
+            $table->string('pdf_file')->nullable();
             $table->timestamps();
         });
     }

@@ -9,4 +9,11 @@ class Testimonial extends Model
 {
     /** @use HasFactory<\Database\Factories\TestimonialFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'position',
+        'organization',
+        'message',
+    ];
 }

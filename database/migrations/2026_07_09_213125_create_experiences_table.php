@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
+            $table->string('image')->nullable();
+            $table->string('organization');
+            $table->string('position');
+            $table->string('type');
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+            $table->longText('description');
             $table->timestamps();
         });
     }

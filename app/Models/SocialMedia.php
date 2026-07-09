@@ -9,4 +9,13 @@ class SocialMedia extends Model
 {
     /** @use HasFactory<\Database\Factories\SocialMediaFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'platform',
+        'url',
+        'icon',
+        'display_order',
+    ];
+
+    
 }
