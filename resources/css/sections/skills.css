@@ -1,0 +1,94 @@
+.skills-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.skills-track {
+    display: flex;
+    align-items: stretch;
+    gap: 1rem;
+    width: max-content;
+}
+
+.skills-item {
+    flex: 0 0 auto;
+    width: 220px;
+}
+
+/* Baris 1 ke kiri */
+.skills-marquee-left .skills-track {
+    animation: skills-marquee-left 28s linear infinite;
+}
+
+/* Baris 2 ke kanan */
+.skills-marquee-right .skills-track {
+    animation: skills-marquee-right 28s linear infinite;
+}
+
+@keyframes skills-marquee-left {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(calc(-50% - 0.5rem));
+    }
+}
+
+@keyframes skills-marquee-right {
+    0% {
+        transform: translateX(calc(-50% - 0.5rem));
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* pause saat hover supaya user bisa fokus baca */
+.skills-marquee:hover .skills-track {
+    animation-play-state: paused;
+}
+
+/* responsive */
+@media (max-width: 1024px) {
+    .skills-item {
+        width: 200px;
+    }
+
+    .skills-marquee-left .skills-track,
+    .skills-marquee-right .skills-track {
+        animation-duration: 24s;
+    }
+}
+
+@media (max-width: 768px) {
+    .skills-item {
+        width: 180px;
+    }
+
+    .skills-marquee-left .skills-track,
+    .skills-marquee-right .skills-track {
+        animation-duration: 20s;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-item {
+        width: 160px;
+    }
+
+    .skills-marquee-left .skills-track,
+    .skills-marquee-right .skills-track {
+        animation-duration: 18s;
+    }
+}
+
+/* kurangi animasi jika user prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .skills-marquee-left .skills-track,
+    .skills-marquee-right .skills-track {
+        animation: none;
+    }
+}
