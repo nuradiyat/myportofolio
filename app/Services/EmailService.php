@@ -11,11 +11,13 @@ class EmailService
 {
     public function sendContactNotification(ContactMessage $contactMessage): bool
     {
-        $emailTarget = config('contact.receiver_email');
+        $receiverEmail = config('contact.receiver_email');
         $receiverName = config('contact.receiver_name');
 
-        if (!$emailTarget || !filter_var($emailTarget, FILTER_VALIDATE_EMAIL)) {
-            Log::warning('Email receiver invalid or missing.', [
+        // Pastikan email penerima tersedia dan valid
+        if (empty($receiverEmail) || ! filter_var($receiverEmail, FILTER_VALIDATE_EMAIL)) {
+
+            Log::warning('Contact receiver email is missing or invalid.', [
                 'contact_message_id' => $contactMessage->id,
             ]);
 
@@ -23,20 +25,34 @@ class EmailService
         }
 
         try {
-            Mail::send('emails.contact-message-notification', [
-                'contactMessage' => $contactMessage,
-                'receiverName' => $receiverName,
-            ], function ($message) use ($contactMessage, $emailTarget, $receiverName) {
-                $message->to($emailTarget, $receiverName)
-                    ->replyTo($contactMessage->email, $contactMessage->name)
-                    ->subject('Pesan Baru dari Website Portfolio: ' . $contactMessage->subject);
-            });
+
+            Mail::send(
+                'emails.contact-message-notification',
+                [
+                    'contactMessage' => $contactMessage,
+                    'receiverName' => $receiverName,
+                ],
+                function ($message) use ($contactMessage, $receiverEmail, $receiverName) {
+
+                    $message
+                        ->to($receiverEmail, $receiverName)
+                        ->replyTo(
+                            $contactMessage->email,
+                            $contactMessage->name
+                        )
+                        ->subject(
+                            'Pesan Baru dari Website Portfolio: ' .
+                                $contactMessage->subject
+                        );
+                }
+            );
 
             return true;
-        } catch (Throwable $e) {
-            Log::error('Failed to send contact email notification.', [
-                'message' => $e->getMessage(),
+        } catch (Throwable $exception) {
+
+            Log::error('Failed to send contact notification email.', [
                 'contact_message_id' => $contactMessage->id,
+                'error' => $exception->getMessage(),
             ]);
 
             return false;

@@ -160,7 +160,7 @@
                                     <tr>
                                         <td style="font-size:13px; color:#64748b; line-height:1.8;">
                                             <strong style="color:#334155;">Waktu Notifikasi:</strong>
-                                            {{ now()->format('d M Y, H:i') }} WIB
+                                            {{ $contactMessage->created_at->format('d M Y, H:i') }} WIB
                                         </td>
                                     </tr>
                                 </table>

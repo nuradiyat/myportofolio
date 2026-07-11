@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\Project;
 
 class ProjectController extends Controller
@@ -12,7 +13,7 @@ class ProjectController extends Controller
             'projects' => Project::latest()->paginate(9),
         ]);
     }
-
+    
     public function show(Project $project)
     {
         $project->load([
@@ -20,6 +21,8 @@ class ProjectController extends Controller
             'galleries',
         ]);
 
-        return view('projects.show', compact('project'));
+        $profile = Profile::first();
+
+        return view('projects.show', compact('project', 'profile'));
     }
 }

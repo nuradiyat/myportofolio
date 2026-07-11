@@ -97,7 +97,7 @@ class ProjectForm
                             ->columnSpanFull()
                             ->helperText('Opsional. Jelaskan tujuan utama project ini dibuat.'),
 
-                        Repeater::make('features')
+                       Repeater::make('features')
                             ->label('Fitur Project')
                             ->schema([
                                 TextInput::make('value')
@@ -105,6 +105,29 @@ class ProjectForm
                                     ->required()
                                     ->maxLength(255),
                             ])
+
+                            // Saat membuka halaman Edit
+                            ->formatStateUsing(function ($state) {
+
+                                if (! is_array($state)) {
+                                    return [];
+                                }
+
+                                return collect($state)
+                                    ->map(fn ($item) => ['value' => $item])
+                                    ->toArray();
+                            })
+
+                            // Saat klik Save
+                            ->dehydrateStateUsing(function ($state) {
+
+                                return collect($state)
+                                    ->pluck('value')
+                                    ->filter()
+                                    ->values()
+                                    ->toArray();
+                            })
+
                             ->defaultItems(0)
                             ->addActionLabel('Tambah Fitur')
                             ->reorderable()

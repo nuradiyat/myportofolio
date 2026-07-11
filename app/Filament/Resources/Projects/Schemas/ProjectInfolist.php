@@ -101,6 +101,11 @@ class ProjectInfolist
                     ->schema([
                         RepeatableEntry::make('features')
                             ->label('')
+                            ->state(fn ($record) => collect($record->features ?? [])
+                                ->map(fn ($item) => [
+                                    'value' => $item,
+                                ])
+                                ->toArray())
                             ->schema([
                                 TextEntry::make('value')
                                     ->label('Fitur'),

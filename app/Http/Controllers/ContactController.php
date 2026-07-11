@@ -11,12 +11,12 @@ use Throwable;
 class ContactController extends Controller
 {
     public function __construct(
-        protected EmailService $emailService,
+        protected EmailService $emailService
     ) {}
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
+        $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'subject' => ['required', 'string', 'max:255'],
@@ -24,15 +24,25 @@ class ContactController extends Controller
         ]);
 
         try {
-            $contactMessage = ContactMessage::create($validated);
+            // Simpan pesan ke database
+            $contactMessage = ContactMessage::create($validatedData);
 
-            $this->emailService->sendContactNotification($contactMessage);
+            // Kirim notifikasi email ke pemilik website
+            $emailSent = $this->emailService->sendContactNotification($contactMessage);
+
+            // Catat jika email gagal dikirim, tetapi data tetap berhasil disimpan
+            if (! $emailSent) {
+                Log::warning('Contact message saved, but email notification failed.', [
+                    'contact_message_id' => $contactMessage->id,
+                ]);
+            }
 
             return redirect('/#contact')
                 ->with('success', 'Pesan berhasil dikirim. Terima kasih sudah menghubungi saya.');
-        } catch (Throwable $e) {
-            Log::error('Contact form error.', [
-                'message' => $e->getMessage(),
+        } catch (Throwable $exception) {
+
+            Log::error('Failed to save contact message.', [
+                'error' => $exception->getMessage(),
             ]);
 
             return redirect('/#contact')

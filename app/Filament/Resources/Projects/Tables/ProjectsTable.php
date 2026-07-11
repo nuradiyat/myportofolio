@@ -51,9 +51,7 @@ class ProjectsTable
                 TextColumn::make('skills.name')
                     ->label('Teknologi')
                     ->badge()
-                    ->separator(',')
-                    ->limitList(3)
-                    ->expandableLimitedList(),
+                    ->separator(','),
 
                 TextColumn::make('start_date')
                     ->label('Mulai')
