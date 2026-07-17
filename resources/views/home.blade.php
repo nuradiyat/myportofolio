@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
-@section('title', 'Home | Muhammad Nuradiyat')
+@section('title', 'Muhammad Nuradiyat | Web Developer BSD Tangerang')
 
-@section('meta_description', 'Website Portofolio Muhammad Nuradiyat.')
+@section(
+    'meta_description',
+    'Muhammad Nuradiyat adalah Web Developer di BSD Tangerang yang membangun website modern, cepat, dan responsif menggunakan Laravel, Filament, Tailwind CSS, dan MySQL. Lihat portofolio, pengalaman, sertifikat, dan proyek yang telah dikerjakan.'
+)
 
 @section('content')
 

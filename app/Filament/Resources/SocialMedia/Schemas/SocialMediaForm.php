@@ -25,7 +25,18 @@ class SocialMediaForm
                         TextInput::make('url')
                             ->label('URL')
                             ->required()
-                            ->url()
+                            ->rule(function () {
+                                return function ($attribute, $value, $fail) {
+                                    if (
+                                        filter_var($value, FILTER_VALIDATE_URL)
+                                        || str_starts_with($value, 'mailto:')
+                                    ) {
+                                        return;
+                                    }
+
+                                    $fail('Masukkan URL yang valid atau mailto:email@example.com');
+                                };
+                            })
                             ->maxLength(255)
                             ->columnSpanFull(),
 
